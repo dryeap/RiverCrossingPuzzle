@@ -1,0 +1,104 @@
+## New Game ##
+[0, 0, 0, 1, 1, 1]  < ç > |  []
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    4
+[0, 0, 0, 1]  | < ç >  [1, 1]
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    3
+[0, 0, 0, 1, 1]  < ç > |  [1]
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    4
+[0, 0, 0]  | < ç >  [1, 1, 1]
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    3
+[0, 0, 0, 1]  < ç > |  [1, 1]
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    2
+[0, 1]  | < ç >  [1, 1, 0, 0]
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    5
+[0, 1, 0, 1]  < ç > |  [1, 0]
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    2
+[1, 1]  | < ç >  [1, 0, 0, 0]
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    3
+[1, 1, 1]  < ç > |  [0, 0, 0]
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    4
+[1]  | < ç >  [0, 0, 0, 1, 1]
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    3
+[1, 1]  < ç > |  [0, 0, 0, 1]
+
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    0 - reset
+    4
+
+WIN!!
+
+[]  | < ç >  [0, 0, 0, 1, 1, 1]
