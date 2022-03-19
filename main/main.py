@@ -72,14 +72,15 @@ def isGameOver(s: State):
 
     if s.left.count(1) > 0 and s.left.count(0) > 0:
         if s.left.count(1) > s.left.count(0):
-            print(f"there are more devils than priests in one shore")
-            s.showState()
+            print(f"game over")
+            # print(f"there are more devils than priests in one shore")
+            # s.showState()
             return True
 
     if s.right.count(1) > 0 and s.right.count(0) > 0:
         if s.right.count(1) > s.right.count(0):
-            print(f"there are more devils than priests in one shore")
-            s.showState()
+            print(f"game over")
+            # s.showState()
             return True
 
     # if len(s['left']) > 0:
@@ -108,16 +109,20 @@ def row_2(s, a, b) -> State:
 
     # if the move isn't possible
     if a not in sideA or b not in sideA:
-        print("Impossible move - no characters")
+        # print("Impossible move - no characters")
         return s
 
     # not enough people too move
     if a == b and sideA.count(a) < 2:
-        print("Impossible move - not enough people")
+        # print("Impossible move - not enough people")
         return s
 
+    tempS = s
     s.move_2(a, b, *s.getSidesString())
     s.switchBoatSide()
+
+    if isGameOver(s):
+        return tempS
 
     return s
 
@@ -127,11 +132,14 @@ def row(s, a) -> State:
 
     # if the move isn't possible
     if a not in sideA:
-        print("Impossible move - no characters")
+        # print("Impossible move - no characters")
         return s
-
+    tempS = s
     s.move(a, *s.getSidesString())
     s.switchBoatSide()
+
+    if isGameOver(s):
+        return tempS
 
     return s
 
@@ -188,18 +196,51 @@ def solve_dfs(s: State):
     if isWin(s):
         return True
 
+    s.showState()
+
+    # send 0
+    solve_dfs(row(s, 0))
+    s.showState()
+
     # send 0 0
     solve_dfs(row_2(s, 0, 0))
-    # send 0 1
-    solve_dfs(row_2(s, 0, 1))
+    s.showState()
+
+    # send 1
+    solve_dfs(row(s, 1))
+    s.showState()
+
     # send 1 1
     solve_dfs(row_2(s, 1, 1))
+    s.showState()
+
+    # send 0 1
+    solve_dfs(row_2(s, 0, 1))
 
 
 if __name__ == '__main__':
     # state = State()
     # state.showState()
     # play(state)
-    while 1:
-        print("\n## New Game ##")
-        manualPlay(State())
+
+    while (menu := input("""
+        1 - Play
+        2 - Solve using DFS
+        3 - Solve using BFS
+        0 - exit
+        """)) != "0":
+
+        if menu == "1":
+            while 1:
+                print("\n## New Game ##")
+                manualPlay(State())
+
+        if menu == "2":
+            solve_dfs(State())
+
+        if menu == "3":
+            solve_dfs(State())
+
+    print("exit")
+
+# TODO : add hints (right answer for each step)
