@@ -1,4 +1,4 @@
-from copy import copy, deepcopy
+from copy import deepcopy
 
 
 class State:
@@ -16,9 +16,6 @@ class State:
     def getSides(self):
         return (self.left, self.right) if self.boat == "left" else (self.right, self.left)
 
-    def getSidesString(self):
-        return ("left", "right") if self.boat == "left" else ("right", "left")
-
     def switchBoatSide(self):
         self.boat = "right" if self.boat == 'left' else "left"
 
@@ -26,32 +23,24 @@ class State:
         _from, to = self.getSides()
 
         if len(eles) == 2:
-            if eles[0] == eles[1] and _from.count(eles[0]) < 2:
-                # print("not enough people")
-                # print(eles, _from)
+            if eles[0] == eles[1] and _from.count(eles[0]) < 2:  # not enough people on the shore
                 return False
 
-            if eles[0] not in _from or eles[1] not in _from:
-                # print("ele not in from")
-                # print(eles, _from)
+            if eles[0] not in _from or eles[1] not in _from:  # person not on the shore
                 return False
         else:
-            if eles[0] not in _from:
-                # print("ele not in from")
-                # print(eles, _from)
+            if eles[0] not in _from:  # person not on the shore
                 return False
 
-        # print(f"before {self.printShowState()}")
+        # move people
         for ele in eles:
             _from.remove(ele)
             to.append(ele)
 
-        # print(f"after  {self.printShowState()}")
-
         if isGameOver(self):
             return False
-        self.switchBoatSide()
 
+        self.switchBoatSide()
         return True
 
 
@@ -59,16 +48,14 @@ def isGameOver(s: State):
     # for each shore, check if game is over
     for shore in s.getSides():
         if shore.count(1) > 0 and shore.count(0) > 0:
-            if shore.count(1) > shore.count(0):
-                # print(f"there are more devils than priests in one shore")
-                # print("no")
+            if shore.count(1) > shore.count(0):  # there are more devils than priests on one shore
                 return True
 
     return False
 
 
 def isWin(s):
-    if len(s.left) == 0:
+    if len(s.left) == 0:  # if there is no one on the starting side of the shore (left), game is won!
         print(f"\n\n{s.showStateSimple()}\nGame won!!\n")
         return True
     return False
@@ -93,39 +80,26 @@ def manualPlay(s: State):
         return True
     s.printState()
 
-    choice = input("""
-    1 - send 1 priest 🕋
-    2 - send 2 priests 🕋
-    3 - send 1 devil 👿
-    4 - send 2 devils 👿
-    5 - send 1 priest + 1 devil ☯
-    R - reset
-    0 - exit
-    """)
+    choice = input(printManualPlayMenu())
 
     if choice == "1":
-        # send 0
-        manualPlay(row(s, [0]))
+        manualPlay(row(s, [0]))  # send 0
 
     if choice == "2":
-        # send 0 0
-        manualPlay(row(s, [0, 0]))
+        manualPlay(row(s, [0, 0]))  # send 0 0
 
     if choice == "3":
-        # send 1
-        manualPlay(row(s, [1]))
+        manualPlay(row(s, [1]))  # send 1
 
     if choice == "4":
-        # send 1 1
-        manualPlay(row(s, [1, 1]))
+        manualPlay(row(s, [1, 1]))  # send 1 1
 
     if choice == "5":
-        # send 0 1
-        manualPlay(row(s, [0, 1]))
+        manualPlay(row(s, [0, 1]))  # send 0 1
 
     if choice == "R":
-        # reset
-        print("\n## New Game ##")
+        print("\n## New Game ##")  # reset
+
         manualPlay(State())
 
     if choice == "0":
@@ -138,135 +112,97 @@ q = []
 ctr = 0
 
 
-def solve_dfs(s: State):
+def solve(s: State, mode="dfs", verbose=False):
     global ctr
-
     if isWin(s):
-        print(f"Moves tried: {ctr}")
+        print(f"{mode} took {ctr} steps")
         return True
 
     ctr += 1
+    print(f"\nTrying moves for \n{s.showStateSimple()}\n") if verbose else ""
 
     for m in possible_moves:
         # row() returns s unchanged if move is impossible
         temp_s = deepcopy(s)
 
-        if temp_s.moveNoTemp(*m):
-            t = (temp_s.showStateSimple(), m)  # tuple
-            if t not in seen:
-                q.append(temp_s)
-                seen.append(t)
-
-    print(f"Number of moves on queue: {ctr}")
-    solve_dfs(q.pop(0))
-
-
-# TODO : blue morphooooooo
-def solve_dfs_verbose(s: State):
-    global ctr
-
-    if isWin(s):
-        print(f"Moves tried: {ctr}")
-        return True
-
-    ctr += 1
-    print(f"\nTrying moves for \n{s.showStateSimple()}\n")
-
-    for m in possible_moves:
-        # row() returns s unchanged if move is impossible
-        temp_s = deepcopy(s)
-
-        print(f"Move is {m}")
+        # print(f"Move is {m}") if verbose else ""
 
         if temp_s.moveNoTemp(*m):
             t = (temp_s.showStateSimple(), m)  # tuple
             if t not in seen:
-                print(f"Valid move, add to queue")
+                # print(f"Valid move, add to queue") if verbose else ""
                 q.append(temp_s)
                 seen.append(t)
             else:
-                print(f"{t} has been checked")
+                # print(f"{t} has been checked") if verbose else ""
+                pass
         else:
-            print("Move results in Game Over")
+            # print("Move results in Game Over") if verbose else ""
+            pass
 
-    print("\nMoves on queue:")
-    for x in q:
-        print(f"{x.showStateSimple()}")
+    if mode == "dfs":
+        if verbose:
+            print("\nMoves on stack:")
+            for x in q:
+                print(f"{x.showStateSimple()}")
+        print(f"Number of moves on stack: {len(q)}")
+        solve(q.pop(len(q) - 1), mode, verbose)
 
-    solve_dfs_verbose(q.pop(0))
+    if mode == "bfs":
+        if verbose:
+            print("\nMoves on queue:")
+            for x in q:
+                print(f"{x.showStateSimple()}")
+        print(f"Number of moves on queue: {len(q)}")
+        solve(q.pop(0), mode, verbose)
 
 
-def solve_bfs(s: State):
-    global ctr
-    if isWin(s):
-        print(f"Moves tried: {ctr}")
-        return True
+def printMenu():
+    return """
+    1  - Play
+    2  - Solve using DFS
+    2v - Solve using DFS (Verbose)
+    3  - Solve using BFS
+    3v - Solve using BFS (Verbose)
+    T  - Thoughts
+    0 - exit
 
-    ctr += 1
+    """
 
-    for m in possible_moves:
-        # row() returns s unchanged if move is impossible
-        temp_s = deepcopy(s)
 
-        if temp_s.moveNoTemp(*m):
-            t = (temp_s.showStateSimple(), m)  # tuple
-            if t not in seen:
-                q.append(temp_s)
-                seen.append(t)
+def printManualPlayMenu():
+    return """
+    1 - send 1 priest 🕋
+    2 - send 2 priests 🕋
+    3 - send 1 devil 👿
+    4 - send 2 devils 👿
+    5 - send 1 priest + 1 devil ☯
+    R - reset
+    0 - exit
 
-    print(f"Number of moves on stack: {ctr}")
-    solve_bfs(q.pop(len(q) - 1))
+    """
 
-def solve_bfs_verbose(s: State):
-    global ctr
-    if isWin(s):
-        print(f"Moves tried: {ctr}")
-        return True
 
-    ctr += 1
-    print(f"\nTrying moves for \n{s.showStateSimple()}\n")
+def printThoughts():
+    return """
+                                Thoughts
 
-    for m in possible_moves:
-        # row() returns s unchanged if move is impossible
-        temp_s = deepcopy(s)
+        Depth-first Search uses a Stack - Last In First Out (LIFO)
+        Breadth-first Search uses a Queue - First In First Out (FIFO)
 
-        print(f"Move is {m}")
+        For this problem in particular, DFS takes significantly less 
+        steps than BFS. This happens because BFS is an algorithm that
+        'digs down' on the tree of possible moves, while DFS checks 
+        every single move for each state, thus finding the solution 
+        as soon as it appears, while BFS is busy making (possibly 
+        useless) moves.
 
-        if temp_s.moveNoTemp(*m):
-            t = (temp_s.showStateSimple(), m)  # tuple
-            if t not in seen:
-                print(f"Valid move, add to queue")
-                q.append(temp_s)
-                seen.append(t)
-            else:
-                print(f"{t} has been checked")
-        else:
-            print("Move results in Game Over")
-
-    print("\nMoves on stack:")
-    for x in q:
-        print(f"{x.showStateSimple()}")
-
-    solve_bfs_verbose(q.pop(len(q) - 1))
+        bj - pp
+"""
 
 
 if __name__ == '__main__':
-    # state = State()
-    # state.showState()
-    # play(state)
-    # solve_bfs(State())
-
-    while (menu := input("""
-        1 - Play
-        2 - Solve using DFS
-        2b- Solve using DFS (Verbose)
-        3 - Solve using BFS
-        3b- Solve using BFS (Verbose)
-        0 - exit
-        
-        DFS uses Stack (LIFO)
-        BFS uses Queue (FIFO)
-""")) != "0":
+    while (menu := input(printMenu())) != "0":
 
         q, seen = [], []
         ctr = 0
@@ -279,17 +215,22 @@ if __name__ == '__main__':
                 manual = manualPlay(State())
 
         if menu == "2":
-            solve_dfs(State())
+            solve(State(), "dfs")
 
         if menu == "3":
-            solve_bfs(State())
+            solve(State(), "bfs")
 
         if menu == "2b":
-            solve_dfs_verbose(State())
+            solve(State(), "dfs", True)
 
         if menu == "3b":
-            solve_bfs_verbose(State())
+            solve(State(), "bfs", True)
 
-    print("exit")
+        if menu == "T":
+            print(printThoughts())
+
+    print("goodbye 😇")
 
 # TODO : add hints (right answer for each step)
+# TODO : graphs for # of moves in queue
+# TODO : add list to store solution moves
