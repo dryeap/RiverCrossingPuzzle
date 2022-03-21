@@ -110,12 +110,12 @@ def manualPlay(s: State):
     if choice == "5":
         manualPlay(row(s, [0, 1]))  # send 0 1
 
-    if choice == "R":
+    if choice.upper() == "R":
         print("\n## New Game ##")  # reset
 
         manualPlay(State())
 
-    if choice == "P":
+    if choice.upper() == "P":
         print_method = "normal" if print_method == "emoji" else "emoji"
         manualPlay(s)
 
