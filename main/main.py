@@ -19,7 +19,7 @@ class State:
     def switchBoatSide(self):
         self.boat = "right" if self.boat == 'left' else "left"
 
-    def moveNoTemp(self, *eles):
+    def move(self, *eles):
         _from, to = self.getSides()
 
         if len(eles) == 2:
@@ -65,7 +65,7 @@ def row(s, eles) -> State:
     startState = deepcopy(s)
 
     # if move results in game over, return earlier state
-    if not s.moveNoTemp(*eles):
+    if not s.move(*eles):
         print(f"{eles} is game over")
         return startState
 
@@ -107,8 +107,7 @@ def manualPlay(s: State):
 
 
 possible_moves = [[0], [0, 0], [1], [1, 1], [0, 1]]
-seen = []
-q = []
+seen, q = [], []
 ctr = 0
 
 
@@ -122,39 +121,27 @@ def solve(s: State, mode="dfs", verbose=False):
     print(f"\nTrying moves for \n{s.showStateSimple()}\n") if verbose else ""
 
     for m in possible_moves:
-        # row() returns s unchanged if move is impossible
+        # create a copy of s, instead of a reference
         temp_s = deepcopy(s)
 
-        # print(f"Move is {m}") if verbose else ""
-
-        if temp_s.moveNoTemp(*m):
+        # check if move is valid
+        if temp_s.move(*m):
             t = (temp_s.showStateSimple(), m)  # tuple
             if t not in seen:
-                # print(f"Valid move, add to queue") if verbose else ""
                 q.append(temp_s)
                 seen.append(t)
-            else:
-                # print(f"{t} has been checked") if verbose else ""
-                pass
-        else:
-            # print("Move results in Game Over") if verbose else ""
-            pass
 
-    if mode == "dfs":
-        if verbose:
-            print("\nMoves on stack:")
-            for x in q:
-                print(f"{x.showStateSimple()}")
-        print(f"Number of moves on stack: {len(q)}")
-        solve(q.pop(len(q) - 1), mode, verbose)
+    dataStruct = 'stack' if mode == 'dfs' else 'queue'
 
-    if mode == "bfs":
-        if verbose:
-            print("\nMoves on queue:")
-            for x in q:
-                print(f"{x.showStateSimple()}")
-        print(f"Number of moves on queue: {len(q)}")
-        solve(q.pop(0), mode, verbose)
+    if verbose:
+        print(f"\nMoves on {dataStruct}:")
+        for x in q:
+            print(f"{x.showStateSimple()}")
+
+    print(f"Number of moves on {dataStruct}: {len(q)}")
+
+    # dfs pops last (lifo), bfs pops first (fifo)
+    solve(q.pop((len(q) - 1) if mode == 'dfs' else 0), mode, verbose)
 
 
 def printMenu():
@@ -229,7 +216,7 @@ if __name__ == '__main__':
         if menu == "T":
             print(printThoughts())
 
-    print("goodbye 😇")
+    print("goodbye 👋")
 
 # TODO : add hints (right answer for each step)
 # TODO : graphs for # of moves in queue
