@@ -12,9 +12,7 @@ Here's the catch: if a priest is left outnumbered by devils (on shore), you lose
 
 Between Depth and Breadth-first search, which would you choose to solve this problem?
 
-Check the implementation and how the times to solve compare.
-
-*to implement*
+Check the implementation and how both methods fare against each other.
 
 
 ## Attempt to solve it on your own 🤔
