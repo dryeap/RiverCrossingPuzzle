@@ -1,0 +1,78 @@
+Start
+
+Number of moves on queue: 3
+Number of moves on queue: 3
+Number of moves on queue: 4
+Number of moves on queue: 5
+Number of moves on queue: 4
+Number of moves on queue: 6
+Number of moves on queue: 5
+Number of moves on queue: 6
+Number of moves on queue: 7
+Number of moves on queue: 6
+Number of moves on queue: 5
+Number of moves on queue: 6
+Number of moves on queue: 7
+Number of moves on queue: 8
+Number of moves on queue: 8
+Number of moves on queue: 9
+Number of moves on queue: 10
+Number of moves on queue: 9
+Number of moves on queue: 10
+Number of moves on queue: 11
+Number of moves on queue: 11
+Number of moves on queue: 10
+Number of moves on queue: 9
+Number of moves on queue: 9
+Number of moves on queue: 8
+Number of moves on queue: 9
+Number of moves on queue: 8
+Number of moves on queue: 9
+Number of moves on queue: 10
+Number of moves on queue: 10
+Number of moves on queue: 11
+Number of moves on queue: 10
+Number of moves on queue: 11
+Number of moves on queue: 11
+Number of moves on queue: 12
+Number of moves on queue: 12
+Number of moves on queue: 12
+Number of moves on queue: 12
+Number of moves on queue: 11
+Number of moves on queue: 10
+Number of moves on queue: 9
+Number of moves on queue: 8
+Number of moves on queue: 7
+Number of moves on queue: 6
+Number of moves on queue: 7
+Number of moves on queue: 8
+Number of moves on queue: 8
+Number of moves on queue: 9
+Number of moves on queue: 9
+Number of moves on queue: 8
+Number of moves on queue: 7
+Number of moves on queue: 6
+Number of moves on queue: 6
+Number of moves on queue: 7
+Number of moves on queue: 8
+Number of moves on queue: 7
+Number of moves on queue: 6
+Number of moves on queue: 5
+Number of moves on queue: 5
+Number of moves on queue: 5
+Number of moves on queue: 7
+Number of moves on queue: 6
+Number of moves on queue: 5
+Number of moves on queue: 4
+Number of moves on queue: 4
+Number of moves on queue: 5
+Number of moves on queue: 6
+Number of moves on queue: 5
+Number of moves on queue: 4
+Number of moves on queue: 5
+
+
+([], ' _', [0, 0, 1, 1, 0, 1])
+Game won!!
+
+bfs analysed 70 states

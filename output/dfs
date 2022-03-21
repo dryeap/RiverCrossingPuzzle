@@ -1,0 +1,32 @@
+Start
+
+Number of moves on stack: 3
+Number of moves on stack: 4
+Number of moves on stack: 5
+Number of moves on stack: 6
+Number of moves on stack: 5
+Number of moves on stack: 7
+Number of moves on stack: 8
+Number of moves on stack: 9
+Number of moves on stack: 10
+Number of moves on stack: 9
+Number of moves on stack: 8
+Number of moves on stack: 7
+Number of moves on stack: 8
+Number of moves on stack: 7
+Number of moves on stack: 8
+Number of moves on stack: 9
+Number of moves on stack: 9
+Number of moves on stack: 10
+Number of moves on stack: 9
+Number of moves on stack: 10
+Number of moves on stack: 11
+Number of moves on stack: 13
+Number of moves on stack: 12
+Number of moves on stack: 13
+
+
+([], ' _', [0, 0, 0, 1, 1, 1])
+Game won!!
+
+dfs analysed 24 states
