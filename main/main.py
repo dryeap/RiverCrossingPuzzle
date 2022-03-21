@@ -13,6 +13,12 @@ class State:
     def showStateSimple(self):
         return self.left, "_ " if self.boat == 'left' else " _", self.right
 
+    def showStatePretty(self):
+        pretty_left = ['🕋' if x == 0 else '👿' for x in self.left]
+        pretty_right = ['🕋' if x == 0 else '👿' for x in self.right]
+        pretty_boat = ' 🚤 ___ ' if self.boat == 'left' else ' ___ 🚤 '
+        return ', '.join(pretty_left) + pretty_boat + ', '.join(pretty_right)
+
     def getSides(self):
         return (self.left, self.right) if self.boat == "left" else (self.right, self.left)
 
@@ -71,14 +77,21 @@ def row(s, eles) -> State:
 
     return s
 
+print_method = "emoji"
 
 def manualPlay(s: State):
+    global print_method
+
     if isGameOver(s):
         return False
 
     if isWin(s):
         return True
-    s.printState()
+    # s.printState()
+    if print_method == "emoji":
+        print(s.showStatePretty())
+    else:
+        s.printState()
 
     choice = input(printManualPlayMenu())
 
@@ -102,6 +115,10 @@ def manualPlay(s: State):
 
         manualPlay(State())
 
+    if choice == "P":
+        print_method = "normal" if print_method == "emoji" else "emoji"
+        manualPlay(s)
+
     if choice == "0":
         return False
 
@@ -114,7 +131,7 @@ ctr = 0
 def solve(s: State, mode="dfs", verbose=False):
     global ctr
     if isWin(s):
-        print(f"{mode} took {ctr} steps")
+        print(f"{mode} analysed {ctr} states")
         return True
 
     ctr += 1
@@ -165,6 +182,7 @@ def printManualPlayMenu():
     4 - send 2 devils 👿
     5 - send 1 priest + 1 devil ☯
     R - reset
+    P - change print method (emoji / numbers)
     0 - exit
 
     """
@@ -207,10 +225,10 @@ if __name__ == '__main__':
         if menu == "3":
             solve(State(), "bfs")
 
-        if menu == "2b":
+        if menu == "2v":
             solve(State(), "dfs", True)
 
-        if menu == "3b":
+        if menu == "3v":
             solve(State(), "bfs", True)
 
         if menu == "T":
