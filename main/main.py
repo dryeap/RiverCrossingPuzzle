@@ -77,7 +77,9 @@ def row(s, eles) -> State:
 
     return s
 
+
 print_method = "emoji"
+
 
 def manualPlay(s: State):
     global print_method
@@ -236,6 +238,5 @@ if __name__ == '__main__':
 
     print("goodbye 👋")
 
-# TODO : add hints (right answer for each step)
 # TODO : graphs for # of moves in queue
-# TODO : add list to store solution moves
+# TODO : gif for dfs / bfs
