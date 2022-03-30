@@ -11,25 +11,26 @@ class State:
         print(self.showStateSimple())
 
     def showStateSimple(self):
-        return self.left, "_ " if self.boat == 'left' else " _", self.right
+        return self.left, "_ " if self.boat == "left" else " _", self.right
 
     def showStatePretty(self):
-        pretty_left = ['🕋' if x == 0 else '👿' for x in self.left]
-        pretty_right = ['🕋' if x == 0 else '👿' for x in self.right]
-        pretty_boat = ' 🚤 ___ ' if self.boat == 'left' else ' ___ 🚤 '
-        return ', '.join(pretty_left) + pretty_boat + ', '.join(pretty_right)
+        pretty_left = ["🕋" if x == 0 else "👿" for x in self.left]
+        pretty_right = ["🕋" if x == 0 else "👿" for x in self.right]
+        pretty_boat = " 🚤 ___ " if self.boat == "left" else " ___ 🚤 "
+        return ", ".join(pretty_left) + pretty_boat + ", ".join(pretty_right)
 
     def getSides(self):
         return (self.left, self.right) if self.boat == "left" else (self.right, self.left)
 
     def switchBoatSide(self):
-        self.boat = "right" if self.boat == 'left' else "left"
+        self.boat = "right" if self.boat == "left" else "left"
 
     def move(self, *eles):
         _from, to = self.getSides()
 
         if len(eles) == 2:
-            if eles[0] == eles[1] and _from.count(eles[0]) < 2:  # not enough people on the shore
+            if eles[0] == eles[1] and _from.count(eles[0]) < 2:
+                # not enough people on the shore
                 return False
 
             if eles[0] not in _from or eles[1] not in _from:  # person not on the shore
@@ -54,14 +55,16 @@ def isGameOver(s: State):
     # for each shore, check if game is over
     for shore in s.getSides():
         if shore.count(1) > 0 and shore.count(0) > 0:
-            if shore.count(1) > shore.count(0):  # there are more devils than priests on one shore
+            if shore.count(1) > shore.count(0):
+                # there are more devils than priests on one shore
                 return True
 
     return False
 
 
 def isWin(s):
-    if len(s.left) == 0:  # if there is no one on the starting side of the shore (left), game is won!
+    if len(s.left) == 0:  # if there is no one on the \
+        # starting side of the shore (left), game is won!
         print(f"\n\n{s.showStateSimple()}\nGame won!!\n")
         return True
     return False
@@ -150,7 +153,7 @@ def solve(s: State, mode="dfs", verbose=False):
                 q.append(temp_s)
                 seen.append(t)
 
-    dataStruct = 'stack' if mode == 'dfs' else 'queue'
+    dataStruct = "stack" if mode == "dfs" else "queue"
 
     if verbose:
         print(f"\nMoves on {dataStruct}:")
@@ -160,7 +163,7 @@ def solve(s: State, mode="dfs", verbose=False):
     print(f"Number of moves on {dataStruct}: {len(q)}")
 
     # dfs pops last (lifo), bfs pops first (fifo)
-    solve(q.pop((len(q) - 1) if mode == 'dfs' else 0), mode, verbose)
+    solve(q.pop((len(q) - 1) if mode == "dfs" else 0), mode, verbose)
 
 
 def printMenu():
@@ -208,7 +211,7 @@ def printThoughts():
 """
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     while (menu := input(printMenu())) != "0":
 
         q, seen = [], []
@@ -240,3 +243,5 @@ if __name__ == '__main__':
 
 # TODO : graphs for # of moves in queue
 # TODO : gif for dfs / bfs
+# black main/main.py --diff --color -l 94
+# black main/main.py -l 94

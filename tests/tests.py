@@ -20,5 +20,7 @@ class MyTestCase(unittest.TestCase):
         self.assertFalse(_.isGameOver(state))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
+
+# TODO : more tests
