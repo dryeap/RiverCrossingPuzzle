@@ -20,10 +20,23 @@ class MyTestCase(unittest.TestCase):
         state = _.State([1, 0], [1, 1, 0, 0])
         self.assertFalse(_.isGameOver(state))
 
+    def test_move(self):
+        state = _.State()
+        state.move(1, 1)
+        self.assertTrue(state.right == [1, 1])
+
     def test_gameWin(self):
         self.assertTrue(_.isWin(_.State([], [1, 1, 1, 0, 0, 0])))
 
-    def test_gameplayWin(self):
+    def test_printState(self):
+        state = _.State()
+        self.assertEqual(str(state.showStateSimple()), "([0, 0, 0, 1, 1, 1], '_ ', [])")
+
+    def test_printStatePretty(self):
+        state = _.State()
+        self.assertEqual(str(state.showStatePretty()), "🕋, 🕋, 🕋, 👿, 👿, 👿 🚤 ___ ")
+
+    def test_TrueWin(self):
         state = _.State()
         state.move(1, 1)
         state.move(1)
@@ -37,6 +50,10 @@ class MyTestCase(unittest.TestCase):
         state.move(1)
         state.move(1, 1)
         self.assertTrue(_.isWin(state))
+
+    def test_FalseWin(self):
+        state = _.State()
+        self.assertFalse(_.isWin(state))
 
 
 if __name__ == "__main__":

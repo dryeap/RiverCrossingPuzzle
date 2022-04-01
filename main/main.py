@@ -7,9 +7,6 @@ class State:
         self.right = [] if right is None else right
         self.boat = "left" if boat is None else boat
 
-    def printState(self):
-        print(self.showStateSimple())
-
     def showStateSimple(self):
         return self.left, "_ " if self.boat == "left" else " _", self.right
 
@@ -92,11 +89,11 @@ def manualPlay(s: State):
 
     if isWin(s):
         return True
-    # s.printState()
+
     if print_method == "emoji":
         print(s.showStatePretty())
     else:
-        s.printState()
+        print(s.showStateSimple())
 
     choice = input(printManualPlayMenu())
 
