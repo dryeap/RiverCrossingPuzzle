@@ -23,17 +23,23 @@ class State:
         self.boat = "right" if self.boat == "left" else "left"
 
     def move(self, *eles):
+        # can only move 1 or 2 people
+        if len(eles) - 1 not in range(0, 2):
+            return False
+
         _from, to = self.getSides()
 
         if len(eles) == 2:
             if eles[0] == eles[1] and _from.count(eles[0]) < 2:
-                # not enough people on the shore
+                # not enough people on shore
                 return False
 
-            if eles[0] not in _from or eles[1] not in _from:  # person not on the shore
+            if eles[0] not in _from or eles[1] not in _from:
+                # person not on shore
                 return False
         else:
-            if eles[0] not in _from:  # person not on the shore
+            if eles[0] not in _from:
+                # person not on shore
                 return False
 
         # move people
