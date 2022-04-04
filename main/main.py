@@ -51,7 +51,12 @@ class State:
             return False
 
         self.switchBoatSide()
+        self.sort()
         return True
+
+    def sort(self):
+        self.left = sorted(self.left)
+        self.right = sorted(self.right)
 
 
 def isGameOver(s: State):
