@@ -1,4 +1,5 @@
 import unittest
+from copy import deepcopy
 
 import main.main as _
 
@@ -62,9 +63,11 @@ class MyTestCase(unittest.TestCase):
         with self.subTest():
             self.assertTrue(state.right == [] and state.left == [0, 0, 0, 1, 1, 1])
 
-        # main.row() doesnt change on gameOver
+        # main.row() doesnt change state if move results in game over
+        deadState = _.row(deepcopy(state), (0, 0))
+
         with self.subTest():
-            self.assertEqual(state.showStateSimple(), (_.row(state, (0, 0))).showStateSimple())  # move into game over
+            self.assertEqual(state.showStateSimple(), deadState.showStateSimple())  # move into game over
 
     def test_gameWin(self):
         self.assertTrue(_.isWin(_.State([], [1, 1, 1, 0, 0, 0])))
@@ -115,7 +118,7 @@ class MyTestCase(unittest.TestCase):
         _.solve(_.State(), "dfs")
         # check size of stack, seen states and counter
         with self.subTest():
-            self.assertTupleEqual((len(_.q), len(_.seen), _.ctr), (12, 36, 24))
+            self.assertTupleEqual((len(_.q), len(_.seen), _.ctr), (9, 25, 16))
 
         # reset vars
         _.q, _.seen, _.ctr = [], [], 0
@@ -123,7 +126,7 @@ class MyTestCase(unittest.TestCase):
         _.solve(_.State(), "bfs")
         # check size of queue, seen states and counter
         with self.subTest():
-            self.assertTupleEqual((len(_.q), len(_.seen), _.ctr), (4, 74, 70))
+            self.assertTupleEqual((len(_.q), len(_.seen), _.ctr), (2, 30, 28))
 
 
 # TODO : test manualPlay() with mock input
