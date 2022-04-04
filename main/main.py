@@ -73,7 +73,8 @@ def isGameOver(s: State):
 def isWin(s):
     if len(s.left) == 0:  # if there is no one on the \
         # starting side of the shore (left), game is won!
-        print(f"\n\n{s.showStateSimple()}\nGame won!!\n")
+        print(f"\n\n{s.showStateSimple() if print_method == 'normal' else s.showStatePretty()}"
+              f"\n~~~~~~~~ Game Won ~~~~~~~~\n")
         return True
     return False
 
@@ -83,7 +84,7 @@ def row(s, eles) -> State:
 
     # if move results in game over, return earlier state
     if not s.move(*eles):
-        print(f"{eles} is game over")
+        print(f"\nThat move ends the game!")
         return startState
 
     return s
@@ -102,9 +103,9 @@ def manualPlay(s: State):
         return True
 
     if print_method == "emoji":
-        print(s.showStatePretty())
+        print("\n" + s.showStatePretty())
     else:
-        print(s.showStateSimple())
+        print("\n" + str(s.showStateSimple()))
 
     choice = input(printManualPlayMenu())
 
@@ -123,12 +124,11 @@ def manualPlay(s: State):
     if choice == "5":
         manualPlay(row(s, [0, 1]))  # send 0 1
 
-    if choice.upper() == "R":
-        print("\n## New Game ##")  # reset
-
+    if choice.upper() == "R":  # reset
+        print(printNewGame())
         manualPlay(State())
 
-    if choice.upper() == "P":
+    if choice.upper() == "P":  # change print method
         print_method = "normal" if print_method == "emoji" else "emoji"
         manualPlay(s)
 
@@ -144,7 +144,7 @@ ctr = 0
 def solve(s: State, mode="dfs", verbose=False):
     global ctr
     if isWin(s):
-        print(f"{mode} analysed {ctr} states")
+        print(f"{mode.upper()} analysed {ctr} states")
         return True
 
     ctr += 1
@@ -181,7 +181,6 @@ def printMenu():
     2v - Solve using DFS (Verbose)
     3  - Solve using BFS
     3v - Solve using BFS (Verbose)
-    T  - Thoughts
     0 - exit
 
     """
@@ -190,33 +189,29 @@ def printMenu():
 def printManualPlayMenu():
     return """
     1 - send 1 priest 🕋
-    2 - send 2 priests 🕋
+    2 - send 2 priests 🕋 🕋
     3 - send 1 devil 👿
-    4 - send 2 devils 👿
+    4 - send 2 devils 👿 👿
     5 - send 1 priest + 1 devil ☯
     R - reset
-    P - change print method (emoji / numbers)
+    P - change print method (to numbers)
     0 - exit
 
-    """
+    """ * (print_method == "emoji") + """
+    1 - send 1 priest [ 0 ]
+    2 - send 2 priests [ 0 0 ]
+    3 - send 1 devil [ 1 ]
+    4 - send 2 devils [ 1 1 ]
+    5 - send 1 priest + 1 devil [ 0 1 ]
+    R - reset
+    P - change print method (to emoji)
+    0 - exit
+
+    """ * (print_method == "normal")
 
 
-def printThoughts():
-    return """
-                                Thoughts
-
-        Depth-first Search uses a Stack - Last In First Out (LIFO)
-        Breadth-first Search uses a Queue - First In First Out (FIFO)
-
-        For this problem in particular, DFS takes significantly less 
-        steps than BFS. This happens because BFS is an algorithm that
-        'digs down' on the tree of possible moves, while DFS checks 
-        every single move for each state, thus finding the solution 
-        as soon as it appears, while BFS is busy making (possibly 
-        useless) moves.
-
-        bj - pp
-"""
+def printNewGame():
+    return "\n~~~~~~~~ New Game ~~~~~~~~"
 
 
 if __name__ == "__main__":
@@ -227,10 +222,8 @@ if __name__ == "__main__":
         print(menu)
 
         if menu == "1":
-            manual = True
-            while manual:
-                print("\n## New Game ##")
-                manual = manualPlay(State())
+            while manual := manualPlay(State()):
+                print(printNewGame())
 
         if menu == "2":
             solve(State(), "dfs")
@@ -243,9 +236,6 @@ if __name__ == "__main__":
 
         if menu == "3v":
             solve(State(), "bfs", True)
-
-        if menu == "T":
-            print(printThoughts())
 
     print("goodbye 👋")
 
