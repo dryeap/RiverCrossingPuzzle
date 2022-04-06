@@ -1,5 +1,9 @@
 from copy import deepcopy
 
+import pandas as pd
+import seaborn as sns
+from matplotlib import pyplot as plt
+
 
 class State:
     def __init__(self, left=None, right=None, boat=None):
@@ -138,6 +142,8 @@ def manualPlay(s: State):
 
 possible_moves = [[0], [0, 0], [1], [1, 1], [0, 1]]
 seen, q = [], []
+queue_over_time, stack_over_time = [], []
+states_seen_over_time_dfs, states_seen_over_time_bfs = [], []
 ctr = 0
 
 
@@ -161,6 +167,17 @@ def solve(s: State, mode="dfs", verbose=False):
                 q.append(temp_s)
                 seen.append(t)
 
+                # TODO : should this get added everytime even if it doesnt change??
+                if mode == "dfs":
+                    stack_over_time.append(len(q))
+                    states_seen_over_time_dfs.append(len(seen))
+                else:
+                    # bfs
+                    queue_over_time.append(len(q))
+                    states_seen_over_time_bfs.append(len(seen))
+                print(queue_over_time)
+                print(stack_over_time)
+
     dataStruct = "stack" if mode == "dfs" else "queue"
 
     if verbose:
@@ -181,7 +198,8 @@ def printMenu():
     2v - Solve using DFS (Verbose)
     3  - Solve using BFS
     3v - Solve using BFS (Verbose)
-    0 - exit
+    G  - Show Graph (run 2 + 3 first)
+    0  - exit
 
     """
 
@@ -210,6 +228,29 @@ def printManualPlayMenu():
     """ * (print_method == "normal")
 
 
+# create a lineplot -> queue size over time dfs vs bfs
+def showGraph():
+    global queue_over_time, stack_over_time, states_seen_over_time_dfs, states_seen_over_time_bfs
+
+    if len(queue_over_time) > len(stack_over_time):
+        for _ in range(0, len(queue_over_time) - len(stack_over_time)):
+            stack_over_time.append(0)
+
+    if len(stack_over_time) > len(queue_over_time):
+        for _ in range(0, len(stack_over_time) - len(queue_over_time)):
+            queue_over_time.append(0)
+
+    data_queue_stack = pd.DataFrame({
+        "bfs": queue_over_time,
+        "dfs": stack_over_time,
+    })
+
+    print(data_queue_stack.head())
+
+    sns.lineplot(data=data_queue_stack)
+    plt.show()
+
+
 def printNewGame():
     return "\n~~~~~~~~ New Game ~~~~~~~~"
 
@@ -236,6 +277,16 @@ if __name__ == "__main__":
 
         if menu == "3v":
             solve(State(), "bfs", True)
+
+        if menu == "3v":
+            solve(State(), "bfs", True)
+
+        if menu == "G":
+            solve(State(), "dfs")
+            q, seen = [], []
+            ctr = 0
+            solve(State(), "bfs")
+            showGraph()
 
     print("goodbye 👋")
 
