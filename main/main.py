@@ -77,8 +77,10 @@ def isGameOver(s: State):
 def isWin(s):
     if len(s.left) == 0:  # if there is no one on the \
         # starting side of the shore (left), game is won!
-        print(f"\n\n{s.showStateSimple() if print_method == 'normal' else s.showStatePretty()}"
-              f"\n~~~~~~~~ Game Won ~~~~~~~~\n")
+        print(
+            f"\n\n{s.showStateSimple() if print_method == 'normal' else s.showStatePretty()}"
+            + "\n~~~~~~~~ Game Won ~~~~~~~~\n"
+        )
         return True
     return False
 
@@ -143,7 +145,6 @@ def manualPlay(s: State):
 possible_moves = [[0], [0, 0], [1], [1, 1], [0, 1]]
 seen, q = [], []
 queue_over_time, stack_over_time = [], []
-states_seen_over_time_dfs, states_seen_over_time_bfs = [], []
 ctr = 0
 
 
@@ -152,6 +153,12 @@ def solve(s: State, mode="dfs", verbose=False):
     if isWin(s):
         print(f"{mode.upper()} analysed {ctr} states")
         return True
+
+    if mode == "dfs":
+        stack_over_time.append(len(q))
+    else:
+        # bfs
+        queue_over_time.append(len(q))
 
     ctr += 1
     print(f"\nTrying moves for \n{s.showStateSimple()}\n") if verbose else ""
@@ -166,17 +173,6 @@ def solve(s: State, mode="dfs", verbose=False):
             if t not in seen:
                 q.append(temp_s)
                 seen.append(t)
-
-                # TODO : should this get added everytime even if it doesnt change??
-                if mode == "dfs":
-                    stack_over_time.append(len(q))
-                    states_seen_over_time_dfs.append(len(seen))
-                else:
-                    # bfs
-                    queue_over_time.append(len(q))
-                    states_seen_over_time_bfs.append(len(seen))
-                print(queue_over_time)
-                print(stack_over_time)
 
     dataStruct = "stack" if mode == "dfs" else "queue"
 
@@ -215,7 +211,9 @@ def printManualPlayMenu():
     P - change print method (to numbers)
     0 - exit
 
-    """ * (print_method == "emoji") + """
+    """ * (
+            print_method == "emoji"
+    ) + """
     1 - send 1 priest [ 0 ]
     2 - send 2 priests [ 0 0 ]
     3 - send 1 devil [ 1 ]
@@ -225,12 +223,23 @@ def printManualPlayMenu():
     P - change print method (to emoji)
     0 - exit
 
-    """ * (print_method == "normal")
+    """ * (
+                   print_method == "normal"
+           )
+
+
+def printNewGame():
+    return "\n~~~~~~~~ New Game ~~~~~~~~"
 
 
 # create a lineplot -> queue size over time dfs vs bfs
 def showGraph():
-    global queue_over_time, stack_over_time, states_seen_over_time_dfs, states_seen_over_time_bfs
+    global queue_over_time, stack_over_time, q, seen, ctr
+
+    solve(State(), "dfs")
+    q, seen = [], []
+    ctr = 0
+    solve(State(), "bfs")
 
     if len(queue_over_time) > len(stack_over_time):
         for _ in range(0, len(queue_over_time) - len(stack_over_time)):
@@ -240,19 +249,20 @@ def showGraph():
         for _ in range(0, len(stack_over_time) - len(queue_over_time)):
             queue_over_time.append(0)
 
-    data_queue_stack = pd.DataFrame({
-        "bfs": queue_over_time,
-        "dfs": stack_over_time,
-    })
+    data_queue_stack = pd.DataFrame(
+        {
+            "bfs": queue_over_time,
+            "dfs": stack_over_time,
+        }
+    )
 
-    print(data_queue_stack.head())
+    # print(data_queue_stack.head())
 
-    sns.lineplot(data=data_queue_stack)
+    sns.lineplot(data=data_queue_stack).set(
+        title="Moves on queue over time", xlabel="iteration", ylabel="moves on queue"
+    )
+
     plt.show()
-
-
-def printNewGame():
-    return "\n~~~~~~~~ New Game ~~~~~~~~"
 
 
 if __name__ == "__main__":
@@ -281,16 +291,11 @@ if __name__ == "__main__":
         if menu == "3v":
             solve(State(), "bfs", True)
 
-        if menu == "G":
-            solve(State(), "dfs")
-            q, seen = [], []
-            ctr = 0
-            solve(State(), "bfs")
+        if menu.lower() == "g":
             showGraph()
 
     print("goodbye 👋")
 
-# TODO : graphs for # of moves in queue
 # TODO : gif for dfs / bfs
 # black main/main.py --diff --color -l 94
 # black main/main.py -l 94
