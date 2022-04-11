@@ -31,6 +31,10 @@ Takes a long time reaching the deeper nodes in the decision tree because it sear
 moving on to the next one. The fastest solution to this puzzle isn't located in the first levels of the decision tree,
 this method is worse.
 
+<p align="center">
+  <img src="/output/queue_size_over_time.png" />
+</p>
+  
 </details>
 
 ## Attempt to solve it on your own 🤔
