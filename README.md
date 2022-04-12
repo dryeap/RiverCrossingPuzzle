@@ -34,11 +34,16 @@ this method is worse.
 <p align="center">
   <img src="/output/queue_size_over_time.png" />
 </p>
-  
+
 </details>
 
 ## Attempt to solve it on your own 🤔
 
 If you get stuck, try checking the [solution](solution) for hints or for the complete solve!
 
+## Sample Execution
+
+<p align="center">
+  <img src="/output/sample_execution.mkv" />
+</p>
 
