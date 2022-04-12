@@ -43,7 +43,4 @@ If you get stuck, try checking the [solution](solution) for hints or for the com
 
 ## Sample Execution
 
-<p align="center">
-  <img src="/output/sample_execution.mkv" alt="Sample execution video"/>
-</p>
-
+![sample_execution](https://user-images.githubusercontent.com/48687163/163045433-feba1a8c-043a-4b8a-9ae6-026cebcc366d.gif)
