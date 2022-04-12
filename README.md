@@ -32,7 +32,7 @@ moving on to the next one. The fastest solution to this puzzle isn't located in 
 this method is worse.
 
 <p align="center">
-  <img src="/output/queue_size_over_time.png" />
+  <img src="/output/queue_size_over_time.png"  alt="Queue size over time graph"/>
 </p>
 
 </details>
@@ -44,6 +44,6 @@ If you get stuck, try checking the [solution](solution) for hints or for the com
 ## Sample Execution
 
 <p align="center">
-  <img src="/output/sample_execution.mkv" />
+  <img src="/output/sample_execution.mkv" alt="Sample execution video"/>
 </p>
 
